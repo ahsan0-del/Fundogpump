@@ -1,10 +1,15 @@
-// COUNTDOWN TIMER (set to 7 days from now)
-const countdownDate = new Date();
-countdownDate.setDate(countdownDate.getDate() + 7);
+// Set FIXED end date (Oct 31, 2023 23:59:59 UTC)
+const countdownDate = new Date("2023-10-31T23:59:59Z");
 
 function updateCountdown() {
   const now = new Date();
   const diff = countdownDate - now;
+
+  // Stop timer if sale ended
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML = "🚀 Sale Ended!";
+    return;
+  }
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -17,20 +22,5 @@ function updateCountdown() {
   document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
 }
 
-// Update every second
 setInterval(updateCountdown, 1000);
-updateCountdown(); // Initial call
-
-// WALLET CONNECTION
-document.getElementById("connectButton").onclick = async function() {
-  if (window.ethereum) {
-    try {
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      alert("Connected: " + accounts[0]);
-    } catch (error) {
-      alert("Error connecting: " + error.message);
-    }
-  } else {
-    alert("Please install MetaMask!");
-  }
-};
+updateCountdown(); // Initialize immediately
