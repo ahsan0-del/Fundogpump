@@ -1,13 +1,16 @@
-// Set FIXED end date (Oct 31, 2023 23:59:59 UTC)
-const countdownDate = new Date("2023-10-31T23:59:59Z");
+// Set end date: 7 days from today at 1:31 PM
+const now = new Date();
+const countdownDate = new Date();
+countdownDate.setDate(now.getDate() + 7); // Add 7 days
+countdownDate.setHours(13, 31, 0, 0); // Set to 1:31 PM
 
 function updateCountdown() {
-  const now = new Date();
-  const diff = countdownDate - now;
+  const currentTime = new Date();
+  const diff = countdownDate - currentTime;
 
   // Stop timer if sale ended
   if (diff <= 0) {
-    document.getElementById("countdown").innerHTML = "🚀 Sale Ended!";
+    document.getElementById("countdown").innerHTML = "🚀 Presale Ended!";
     return;
   }
 
@@ -22,5 +25,6 @@ function updateCountdown() {
   document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
 }
 
+// Update every second
 setInterval(updateCountdown, 1000);
-updateCountdown(); // Initialize immediately
+updateCountdown(); // Initial call
